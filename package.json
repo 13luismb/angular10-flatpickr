@@ -1,6 +1,6 @@
 {
-  "name": "angularx-flatpickr",
-  "version": "6.5.2",
+  "name": "angular10-flatpickr",
+  "version": "6.5.3",
   "description": "An angular 5.0+ wrapper for flatpickr",
   "scripts": {
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattlewis92/angularx-flatpickr.git"
+    "url": "git+https://github.com/13luismb/angular10-flatpickr.git"
   },
   "keywords": [
     "angular2",
@@ -41,9 +41,9 @@
   "author": "Matt Lewis",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mattlewis92/angularx-flatpickr/issues"
+    "url": "https://github.com/13luismb/angular10-flatpickr/issues"
   },
-  "homepage": "https://github.com/mattlewis92/angularx-flatpickr#readme",
+  "homepage": "https://github.com/13luismb/angular10-flatpickr#readme",
   "devDependencies": {
     "@angular/common": "^6.0.7",
     "@angular/compiler": "^6.0.7",
