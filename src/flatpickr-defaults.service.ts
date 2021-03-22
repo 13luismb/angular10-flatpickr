@@ -209,6 +209,11 @@ export interface FlatpickrDefaultsInterface {
    * How the month should be displayed in the header of the calendar.
    */
   monthSelectorType?: 'static' | 'dropdown';
+
+  /**
+   * How the year should be displayed in the header of the calendar.
+   */
+  yearSelectorType?: 'static' | 'dropdown';
 }
 
 @Injectable()
@@ -418,4 +423,9 @@ export class FlatpickrDefaults implements FlatpickrDefaultsInterface {
    * How the month should be displayed in the header of the calendar.
    */
   monthSelectorType: 'static' | 'dropdown' = 'static';
+
+  /**
+   * How the year should be displayed in the header of the calendar.
+   */
+  yearSelectorType: 'static' | 'dropdown' = 'static';
 }

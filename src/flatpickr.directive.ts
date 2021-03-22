@@ -268,6 +268,11 @@ export class FlatpickrDirective
   @Input() monthSelectorType: 'static' | 'dropdown';
 
   /**
+   * How the year should be displayed in the header of the calendar.
+   */
+  @Input() yearSelectorType: 'static' | 'dropdown';
+
+  /**
    * Gets triggered once the calendar is in a ready state
    */
   @Output()
@@ -326,6 +331,7 @@ export class FlatpickrDirective
   private instance: flatpickr.Instance;
   private isDisabled = false;
   private initialValue: any;
+  private FLATPICKR_CUSTOM_YEAR_SELECT = 'flatpickr-custom-year-select';
 
   onChangeFn: (value: any) => void = () => {}; // tslint:disable-line
 
@@ -371,6 +377,7 @@ export class FlatpickrDirective
       shorthandCurrentMonth: this.shorthandCurrentMonth,
       showMonths: this.showMonths,
       monthSelectorType: this.monthSelectorType,
+      yearSelectorType: this.yearSelectorType,
       static: this.static,
       time24hr: this.time24hr,
       weekNumbers: this.weekNumbers,
@@ -392,6 +399,9 @@ export class FlatpickrDirective
         dateString: string,
         instance: any
       ) => {
+        if (this.options.yearSelectorType === 'dropdown') {
+          (document.getElementById(this.FLATPICKR_CUSTOM_YEAR_SELECT) as any).value = '' + instance.currentYear;
+        }
         this.flatpickrMonthChange.emit({ selectedDates, dateString, instance });
       },
       onYearChange: (
@@ -402,6 +412,38 @@ export class FlatpickrDirective
         this.flatpickrYearChange.emit({ selectedDates, dateString, instance });
       },
       onReady: (selectedDates: Date[], dateString: string, instance: any) => {
+        if (this.options.yearSelectorType === 'dropdown'){
+        const flatpickrYearElement = instance.currentYearElement;
+
+        const children = flatpickrYearElement.parentElement.children;
+        for (let i in children) {
+          if (children.hasOwnProperty(i)) {
+            children[i].style.display = 'none';
+          }
+        }
+
+        const yearSelect = document.createElement('select');
+        const minYear = new Date(instance.config._minDate || new Date(1)).getFullYear();
+        const maxYear = new Date(instance.config._maxDate || new Date()).getFullYear();
+        for (let i = minYear; i <= maxYear; i++) {
+          const option = document.createElement('option');
+          option.value = '' + i;
+          option.text = '' + i;
+          option.selected = i === maxYear;
+          yearSelect.appendChild(option);
+        }
+        yearSelect.addEventListener('change', function (event) {
+          flatpickrYearElement.value = event.target['value'];
+          instance.currentYear = parseInt(event.target['value']);
+          instance.redraw();
+        });
+
+        yearSelect.className = 'flatpickr-monthDropdown-years';
+        yearSelect.id = this.FLATPICKR_CUSTOM_YEAR_SELECT;
+        yearSelect.value = instance.currentYearElement.value;
+
+        flatpickrYearElement.parentElement.appendChild(yearSelect);
+      }
         this.flatpickrReady.emit({ selectedDates, dateString, instance });
       },
       onValueUpdate: (
